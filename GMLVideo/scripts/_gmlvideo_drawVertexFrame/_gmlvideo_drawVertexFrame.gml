@@ -1,4 +1,5 @@
-function _gmlvideo_drawVertexFrame() {
+function _gmlvideo_drawVertexFrame()
+{
 	var vb = argument1;
 	var manifest = argument0;
 	var width = ds_map_find_value(manifest, "width");

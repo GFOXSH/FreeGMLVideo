@@ -1,4 +1,5 @@
-function gmlvideo_init() {
+function gmlvideo_init()
+{
 	vertex_format_begin();
 	vertex_format_add_custom(vertex_type_color, vertex_usage_color);
 	var vertex_vid = vertex_format_end();

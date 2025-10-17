@@ -1,4 +1,5 @@
-function _gmlvideo_video_drawframe() {
+function _gmlvideo_video_drawframe()
+{
 	var video = argument[0];
 	var manifest = ds_map_find_value(video, "manifest");
 	var framebuffer = ds_map_find_value(video, "frame_buffer");

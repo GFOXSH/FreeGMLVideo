@@ -1,4 +1,5 @@
-function gmlvideo_flushcache() {
+function gmlvideo_flushcache()
+{
 	var f = file_find_first("_GMLVID*", 16);
 
 	while (f != "")

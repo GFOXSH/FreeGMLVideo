@@ -1,4 +1,5 @@
-function timer() {
+function timer()
+{
 	if (argument_count >= 1)
 	{
 	    global.timertime = current_time;

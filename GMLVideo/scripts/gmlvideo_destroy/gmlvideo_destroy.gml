@@ -1,4 +1,5 @@
-function gmlvideo_destroy() {
+function gmlvideo_destroy()
+{
 	var G = argument0;
 
 	if (surface_exists(ds_map_find_value(G, "frame_surface")))

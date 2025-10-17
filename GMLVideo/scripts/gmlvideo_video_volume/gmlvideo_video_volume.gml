@@ -1,4 +1,5 @@
-function gmlvideo_video_volume() {
+function gmlvideo_video_volume()
+{
 	var video = argument[0];
 
 	if (!is_undefined(ds_map_find_value(video, "audio_instance")))

@@ -1,4 +1,5 @@
-function _gmlvideo_sync_audio() {
+function _gmlvideo_sync_audio()
+{
 	var video = argument0;
 	var manifest = ds_map_find_value(video, "manifest");
 

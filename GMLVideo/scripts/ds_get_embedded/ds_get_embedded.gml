@@ -1,4 +1,5 @@
-function ds_get_embedded() {
+function ds_get_embedded()
+{
 	var _ds = argument[0];
 	var c = argument_count;
 

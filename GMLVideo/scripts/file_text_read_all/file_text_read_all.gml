@@ -1,4 +1,5 @@
-function file_text_read_all() {
+function file_text_read_all()
+{
 	if (!file_exists(argument0))
 	{
 	    show_debug_message("Could not load file: " + string(argument0));

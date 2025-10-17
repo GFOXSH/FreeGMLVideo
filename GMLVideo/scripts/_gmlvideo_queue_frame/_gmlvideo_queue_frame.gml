@@ -1,4 +1,5 @@
-function _gmlvideo_queue_frame() {
+function _gmlvideo_queue_frame()
+{
 	var index = argument[1];
 	var video = argument[0];
 	var framebuffer = ds_map_find_value(video, "frame_buffer");

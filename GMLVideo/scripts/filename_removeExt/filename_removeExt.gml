@@ -1,4 +1,5 @@
-function filename_removeExt() {
+function filename_removeExt()
+{
 	var s = argument0;
 	var l = string_length(s);
 	var i = l;

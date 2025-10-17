@@ -1,1 +1,1 @@
-gmlvideo_video_seekto(myvideo, 8)
+gmlvideo_video_seekto(myvideo, 5)

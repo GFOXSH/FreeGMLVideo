@@ -1,4 +1,5 @@
-function gmlvideo_end() {
+function gmlvideo_end()
+{
 	vertex_format_delete(ds_map_find_value(global.gmlvideo, "vertex_vid"));
 	ds_map_destroy(global.gmlvideo);
 

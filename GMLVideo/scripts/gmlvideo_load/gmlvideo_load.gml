@@ -1,4 +1,5 @@
-function gmlvideo_load() {
+function gmlvideo_load()
+{
 	var fn = filename_removeExt(filename_name(argument[0]));
 	var ext = filename_ext(argument[0]);
 	var failed = 1;
@@ -11,10 +12,7 @@ function gmlvideo_load() {
 	{
 	    if (ext == ".vid")
 	    {
-	        if (directory_exists(vid_dir) && file_exists(vid_dir + "video.dat"))
-	        {
-	        }
-	        else
+	        if !(directory_exists(vid_dir) && file_exists(vid_dir + "video.dat"))
 	        {
 	            var archiveName = filename_removeExt(filename_name(argument[0])) + ".zip";
 	            file_copy(argument[0], working_directory + archiveName);

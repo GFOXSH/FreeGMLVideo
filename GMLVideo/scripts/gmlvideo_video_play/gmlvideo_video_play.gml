@@ -1,4 +1,5 @@
-function gmlvideo_video_play() {
+function gmlvideo_video_play()
+{
 	var video = argument[0];
 	var play = !ds_map_find_value(video, "playing");
 

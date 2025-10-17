@@ -1,4 +1,5 @@
-function _gmlvideo_video_framebuffer_to_vertexbuffer() {
+function _gmlvideo_video_framebuffer_to_vertexbuffer()
+{
 	var frameSize = argument[0];
 	var frameBuffer = argument[1];
 	var s = ds_list_size(frameSize);
@@ -9,7 +10,7 @@ function _gmlvideo_video_framebuffer_to_vertexbuffer() {
 
 	for (var i = 0; i < s; i++)
 	{
-	    thisFrameSize = ds_list_find_value(frameSize, i);
+	    var thisFrameSize = ds_list_find_value(frameSize, i);
     
 	    if (thisFrameSize > 0)
 	        vb[i] = vertex_create_buffer_from_buffer_ext(frameBuffer, vertex_vid, n, thisFrameSize / bytesPerVertex);

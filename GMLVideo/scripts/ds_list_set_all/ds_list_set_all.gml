@@ -1,4 +1,5 @@
-function ds_list_set_all() {
+function ds_list_set_all()
+{
 	var l = argument0;
 	var s = ds_list_size(l);
 

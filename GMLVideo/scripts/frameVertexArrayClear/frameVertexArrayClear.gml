@@ -1,4 +1,5 @@
-function frameVertexArrayClear() {
+function frameVertexArrayClear()
+{
 	var vb = argument0;
 
 	for (var i = 0; i < array_length_1d(vb); i++)

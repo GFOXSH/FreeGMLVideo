@@ -1,4 +1,5 @@
-function dm() {
+function dm()
+{
 	var a = ds_map_create();
 
 	for (var i = 0; i < argument_count; i += 2)

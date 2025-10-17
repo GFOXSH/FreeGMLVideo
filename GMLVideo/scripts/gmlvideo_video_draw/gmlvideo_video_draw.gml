@@ -1,4 +1,5 @@
-function gmlvideo_video_draw() {
+function gmlvideo_video_draw()
+{
 	var video = argument[0];
 	var manifest = ds_map_find_value(video, "manifest");
 	var xx = argument[1];

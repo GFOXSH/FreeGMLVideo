@@ -1,4 +1,5 @@
-function ds_map_merge() {
+function ds_map_merge()
+{
 	var map1 = argument0;
 	var map2 = argument1;
 	var size = ds_map_size(map2);

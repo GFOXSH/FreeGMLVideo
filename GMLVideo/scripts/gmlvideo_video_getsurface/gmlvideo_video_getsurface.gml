@@ -1,4 +1,5 @@
-function gmlvideo_video_getsurface() {
+function gmlvideo_video_getsurface()
+{
 	var video = argument[0];
 	var manifest = ds_map_find_value(video, "manifest");
 	var xx = 0;

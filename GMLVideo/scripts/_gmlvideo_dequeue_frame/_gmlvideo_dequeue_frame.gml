@@ -1,4 +1,5 @@
-function _gmlvideo_dequeue_frame() {
+function _gmlvideo_dequeue_frame()
+{
 	var index = argument[1];
 	var video = argument[0];
 	var framebuffer = ds_map_find_value(video, "frame_buffer");
@@ -19,8 +20,5 @@ function _gmlvideo_dequeue_frame() {
 	    {
 	        ds_map_delete(global.gmlvideo_asyncAssoc, ds_get_embedded(ds_list_find_value(framebuffer, index), "id"));
 	    }
-	}
-	else
-	{
 	}
 }
