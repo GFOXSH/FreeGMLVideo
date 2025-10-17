@@ -44,7 +44,7 @@
     {"id":{"name":"ds_map_merge_isset","path":"scripts/ds_map_merge_isset/ds_map_merge_isset.yy",},"order":36,},
     {"id":{"name":"isset","path":"scripts/isset/isset.yy",},"order":37,},
     {"id":{"name":"obj_video_player","path":"objects/obj_video_player/obj_video_player.yy",},"order":38,},
-    {"id":{"name":"obj_gmlvideo_magager","path":"objects/obj_gmlvideo_magager/obj_gmlvideo_magager.yy",},"order":39,},
+    {"id":{"name":"obj_gmlvideo_manager","path":"objects/obj_gmlvideo_manager/obj_gmlvideo_manager.yy",},"order":39,},
     {"id":{"name":"gmlvideo_is_playing","path":"scripts/gmlvideo_is_playing/gmlvideo_is_playing.yy",},"order":40,},
     {"id":{"name":"rmGMLVideo","path":"rooms/rmGMLVideo/rmGMLVideo.yy",},"order":40,},
     {"id":{"name":"sh_gmlvideo_helper","path":"shaders/sh_gmlvideo_helper/sh_gmlvideo_helper.yy",},"order":41,},

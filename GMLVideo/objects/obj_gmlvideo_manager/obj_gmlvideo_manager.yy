@@ -1,7 +1,7 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "obj_gmlvideo_magager",
+  "name": "obj_gmlvideo_manager",
   "spriteId": null,
   "solid": false,
   "visible": true,
