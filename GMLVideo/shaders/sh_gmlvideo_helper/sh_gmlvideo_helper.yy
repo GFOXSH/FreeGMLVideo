@@ -1,7 +1,7 @@
 {
   "resourceType": "GMShader",
   "resourceVersion": "1.0",
-  "name": "shdVidDraw",
+  "name": "sh_gmlvideo_helper",
   "type": 1,
   "parent": {
     "name": "Shaders",

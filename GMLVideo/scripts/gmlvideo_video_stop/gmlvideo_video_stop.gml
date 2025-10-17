@@ -1,6 +1,10 @@
 function gmlvideo_video_stop()
 {
 	var video = argument0;
+	
+	if _gmlvideo_is_seek(video)
+		exit;
+	
 	ds_map_set(video, "playing", 0);
 	ds_map_set(video, "frame", 0);
 	ds_map_set(video, "frame_progress", 0);

@@ -15,7 +15,7 @@ function gmlvideo_video_getsurface()
 	    ds_map_set(video, "frame_redraw", 0);
 	}
 	
-	if (ds_map_find_value(video, "seek") != -1)
+	if _gmlvideo_is_seek(video)
 		return -1;
 	
 	if (getSurface)

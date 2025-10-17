@@ -15,13 +15,13 @@ for (var i = 0; i < s; i++)
 		var current_pos = gmlvideo_get_position(video)
 		var distance = seek - current_pos
 		var acceleration = 10 * distance
-		gmlvideo_video_speed(video, acceleration);
+		_gmlvideo_video_speed(video, acceleration);
 		
 		gmlvideo_video_volume(video, 0);
 		
 		if (current_pos >= seek || acceleration < 1)
 		{
-			gmlvideo_video_speed(video, 1);
+			_gmlvideo_video_speed(video, 1);
 			ds_map_replace(video, "seek", -1)
 			gmlvideo_video_volume(video, 1)
 		}

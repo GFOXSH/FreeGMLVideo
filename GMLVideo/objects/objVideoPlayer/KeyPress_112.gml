@@ -1,1 +1,0 @@
-gmlvideo_video_seekto(myvideo, 5)

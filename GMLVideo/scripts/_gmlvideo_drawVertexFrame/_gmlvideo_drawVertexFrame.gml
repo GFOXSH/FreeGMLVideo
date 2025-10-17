@@ -7,8 +7,8 @@ function _gmlvideo_drawVertexFrame()
 	var blockSize = ds_map_find_value(manifest, "block_size");
 	var blockCount = ds_list_size(ds_get_embedded(manifest, "frameSize", 0));
 	var blockCount_W = ceil(width / blockSize);
-	shader_set(shdVidDraw);
-	var shdpos = shader_get_uniform(shdVidDraw, "offset_pos");
+	shader_set(sh_gmlvideo_helper);
+	var shdpos = shader_get_uniform(sh_gmlvideo_helper, "offset_pos");
 
 	for (var i = 0; i < blockCount; i++)
 	{

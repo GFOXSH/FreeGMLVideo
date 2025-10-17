@@ -1,1 +1,0 @@
-gmlvideo_step();

@@ -1,7 +1,7 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "objVideoPlayer",
+  "name": "obj_video_player",
   "spriteId": {
     "name": "sprPlaceholder",
     "path": "sprites/sprPlaceholder/sprPlaceholder.yy",
