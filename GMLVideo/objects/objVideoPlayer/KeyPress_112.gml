@@ -1,0 +1,1 @@
+gmlvideo_video_seekto(myvideo, 8)
