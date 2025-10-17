@@ -56,7 +56,7 @@ function gmlvideo_load()
 	    if (argument_count > 1)
 	        opts = argument[1];
     
-	    videoObject = dm("frame", 0, "frame_progress", 0, "frame_lastinterval", current_time, "speed", 1, "frame_surface", -1, "playing", 1, "loop", 1, "file_root", vid_dir, "autoplay", 1, "seek", -1);
+	    videoObject = dm("frame", 0, "frame_progress", 0, "frame_lastinterval", current_time, "speed", 1, "frame_surface", -1, "backup_buffer", -1, "playing", 1, "loop", 1, "file_root", vid_dir, "autoplay", 1, "seek", -1);
     
 	    if (!is_undefined(opts))
 	    {

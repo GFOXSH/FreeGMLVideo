@@ -10,12 +10,23 @@ function _gmlvideo_video_drawframe()
 	    var vb = _gmlvideo_video_framebuffer_to_vertexbuffer(ds_get_embedded(manifest, "frameSize", index), ds_get_embedded(framebuffer, index, "buffer"));
     
 	    if (!surface_exists(ds_map_find_value(video, "frame_surface")))
+	    {
 	        ds_map_set(video, "frame_surface", surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height")));
+        
+	        if (buffer_exists(ds_map_find_value(video, "backup_buffer")))
+	            buffer_set_surface(ds_map_find_value(video, "backup_buffer"), ds_map_find_value(video, "frame_surface"), 0);
+	    }
     
 	    surface_set_target(ds_map_find_value(video, "frame_surface"));
 	    _gmlvideo_drawVertexFrame(manifest, vb);
 	    surface_reset_target();
-	    ds_map_set(video, "frame_lastdrawn", index);
+		
+		if (!buffer_exists(ds_map_find_value(video, "backup_buffer")))
+			ds_map_set(video, "backup_buffer", buffer_create(4 * ds_map_find_value(manifest, "width") * ds_map_find_value(manifest, "height"), buffer_fixed, 1));
+		
+		buffer_get_surface(ds_map_find_value(video, "backup_buffer"), ds_map_find_value(video, "frame_surface"), 0);
+	    
+		ds_map_set(video, "frame_lastdrawn", index);
 	    frameVertexArrayClear(vb);
 	}
 }
