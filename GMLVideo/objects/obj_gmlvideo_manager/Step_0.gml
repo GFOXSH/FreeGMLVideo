@@ -2,7 +2,7 @@ var videos = global.gmlvideo_instances;
 var s = ds_list_size(videos);
 var d = delta_time / 1000000;
 var frames_to_buffer = ds_map_find_value(global.gmlvideo, "buffer_frames");
-
+var seeker = false
 for (var i = 0; i < s; i++)
 {
     var video = ds_list_find_value(videos, i);
@@ -24,6 +24,10 @@ for (var i = 0; i < s; i++)
 			_gmlvideo_video_speed(video, 1);
 			ds_map_replace(video, "seek", -1)
 			gmlvideo_video_volume(video, 1)
+		}
+		else
+		{
+			seeker = true
 		}
 	}
 	
@@ -61,4 +65,13 @@ for (var i = 0; i < s; i++)
         else
             _gmlvideo_dequeue_frame(video, u_frame);
     }
+}
+
+if seeker
+{
+	game_set_speed(999, gamespeed_fps)
+}
+else
+{
+	game_set_speed(gamespeed, gamespeed_fps)
 }
