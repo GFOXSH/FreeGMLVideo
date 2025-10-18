@@ -13,7 +13,7 @@ function gmlvideo_video_volume()
 	    }
 	    else
 	    {
-	        audio_sound_gain(ds_map_find_value(video, "audio_instance"), argument[1], 0);
+	        audio_sound_gain(ds_map_find_value(video, "audio_instance"), clamp(argument[1], 0, 1), 0);
 	    }
 	}
 }

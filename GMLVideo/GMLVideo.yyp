@@ -3,6 +3,7 @@
   "resourceVersion": "1.6",
   "name": "GMLVideo",
   "resources": [
+    {"id":{"name":"gmlvideo_get_volume","path":"scripts/gmlvideo_get_volume/gmlvideo_get_volume.yy",},"order":44,},
     {"id":{"name":"sprPlaceholder","path":"sprites/sprPlaceholder/sprPlaceholder.yy",},"order":0,},
     {"id":{"name":"gmlvideo_load","path":"scripts/gmlvideo_load/gmlvideo_load.yy",},"order":1,},
     {"id":{"name":"gmlvideo_flushcache","path":"scripts/gmlvideo_flushcache/gmlvideo_flushcache.yy",},"order":2,},

@@ -21,3 +21,4 @@ draw_text(10, room_height - 30, string_hash_to_newline("FPS: " + string(fps)));
 draw_text(170, room_height - 30, string_hash_to_newline("TIME: " + string_format(gmlvideo_get_position(myvideo), 0, 2)));
 draw_text(330, room_height - 30, string_hash_to_newline("LENGTH: " + string_format(gmlvideo_length(myvideo), 0, 2)));
 draw_text(490, room_height - 30, string_hash_to_newline("SPEED: " + string_format(ds_map_find_value(myvideo, "speed"), 0, 2)));
+draw_text(600, room_height - 30, string_hash_to_newline("VOLUME: " + string_format(gmlvideo_get_volume(myvideo), 0, 2)));
