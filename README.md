@@ -13,3 +13,5 @@ In the current version:
 - Minor bug fixes;
 
 More improvements are planned!
+
+Try the demo [here](https://github.com/GFOXSH/FreeGMLVideo/releases).
