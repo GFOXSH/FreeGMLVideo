@@ -1,12 +1,11 @@
 game_set_speed(999, gamespeed_fps);
 gmlvideo_flushcache();
 myvideo = -1;
-loadFile = 0;
 
-if (loadFile)
-    myvideo = gmlvideo_load(get_open_filename("vid|*.vid", ""));
-else
-    myvideo = gmlvideo_load("threelaws_gms2.vid");
+myvideo = gmlvideo_load("threelaws_gms2.vid");
+
+if (myvideo == -1)
+    myvideo = gmlvideo_load(get_open_filename("vid|*.vid", ""));  
 
 if (myvideo == -1)
     show_error("VIDEO FILE FAILED TO LOAD", 1);
