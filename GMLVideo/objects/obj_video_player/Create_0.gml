@@ -1,4 +1,4 @@
-game_set_speed(30, gamespeed_fps);
+game_set_speed(999, gamespeed_fps);
 gmlvideo_flushcache();
 myvideo = -1;
 loadFile = 0;

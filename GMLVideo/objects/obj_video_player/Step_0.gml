@@ -21,12 +21,12 @@ if (keyboard_check_pressed(vk_anykey))
 
 		case ord("V"):
 			var spd = ds_map_find_value(myvideo, "speed");
-			gmlvideo_video_speed(myvideo, spd - 0.5)
+			gmlvideo_video_speed(myvideo, spd - 0.1)
 			break
 
 		case ord("B"):
 			var spd = ds_map_find_value(myvideo, "speed");
-			gmlvideo_video_speed(myvideo, spd + 0.5)
+			gmlvideo_video_speed(myvideo, spd + 0.1)
 			break
 		
 		case ord("S"):

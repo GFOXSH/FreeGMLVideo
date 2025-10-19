@@ -1,7 +1,7 @@
 {
   "resourceType": "GMRoom",
   "resourceVersion": "1.0",
-  "name": "rmGMLVideo",
+  "name": "room_video_player",
   "isDnd": false,
   "volume": 1.0,
   "parentRoom": null,
@@ -26,7 +26,7 @@
   "creationCodeFile": "",
   "inheritCode": false,
   "instanceCreationOrder": [
-    {"name":"inst_100000","path":"rooms/rmGMLVideo/rmGMLVideo.yy",},
+    {"name":"inst_100000","path":"rooms/room_video_player/room_video_player.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,
