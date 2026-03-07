@@ -1,1 +1,0 @@
-game_set_speed(gamespeed, gamespeed_fps)

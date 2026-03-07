@@ -2,35 +2,109 @@ var videos = global.gmlvideo_instances;
 var s = ds_list_size(videos);
 var d = delta_time / 1000000;
 var frames_to_buffer = ds_map_find_value(global.gmlvideo, "buffer_frames");
-var seeker = false
+
 for (var i = 0; i < s; i++)
 {
     var video = ds_list_find_value(videos, i);
     var video_fps = ds_get_embedded(video, "manifest", "target_fps");
     var frame_count = ds_get_embedded(video, "manifest", "frame_count");
     
-	var seek = ds_map_find_value(video, "seek");
-	if (seek >= 0)
-	{
-		var current_pos = gmlvideo_get_position(video)
-		var distance = seek - current_pos
-		var acceleration = 10 * distance
-		_gmlvideo_video_speed(video, acceleration);
-		
-		gmlvideo_video_volume(video, 0);
-		
-		if (current_pos >= seek || acceleration < 1)
+    var seek = ds_map_find_value(video, "seek");
+    if (seek >= 0)
+    {
+        var target_frame = floor(seek * video_fps);
+        target_frame = clamp(target_frame, 0, frame_count - 1);
+        
+        var last_drawn = isset_default(ds_map_find_value(video, "frame_lastdrawn"), -1);
+        var start_f = last_drawn + 1;
+        
+        var manifest = ds_map_find_value(video, "manifest");
+        var has_surface = surface_exists(ds_map_find_value(video, "frame_surface"));
+        
+        if (!has_surface)
+        {
+            ds_map_set(video, "frame_surface", surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height")));
+            if (buffer_exists(ds_map_find_value(video, "backup_buffer")))
+                buffer_set_surface(ds_map_find_value(video, "backup_buffer"), ds_map_find_value(video, "frame_surface"), 0);
+            else
+                start_f = 0;
+        }
+        
+        if (target_frame < last_drawn || start_f < 0)
+        {
+            start_f = 0;
+        }
+        
+		if (start_f <= target_frame)
 		{
-			_gmlvideo_video_speed(video, 1);
-			ds_map_replace(video, "seek", -1)
-			gmlvideo_video_volume(video, 1)
+		    var frameSize = ds_map_find_value(manifest, "frameSizePrecalc");
+		    var start_offset = isset_default(ds_map_find_value(manifest, "start_frame"), 0);
+    
+		    var old_blend = gpu_get_blendmode();
+		    gpu_set_blendmode(bm_normal);
+    
+		    surface_set_target(ds_map_find_value(video, "frame_surface"));
+    
+		    if (start_f == 0)
+		    {
+		        draw_clear_alpha(c_black, 1.0); 
+		    }
+    
+		    for (var f = start_f; f <= target_frame; f++)
+		    {
+		        var frame_total_size = ds_list_find_value(frameSize, f);
+		        if (frame_total_size > 0)
+		        {
+		            var frame_file = ds_map_find_value(video, "file_root") + "frame_" + string(start_offset + f) + ".dat";
+		            var b = buffer_load(frame_file);
+            
+		            if (b != -1)
+		            {
+		                var vb = _gmlvideo_video_framebuffer_to_vertexbuffer(ds_get_embedded(manifest, "frameSize", f), b);
+		                _gmlvideo_drawVertexFrame(manifest, vb);
+		                frameVertexArrayClear(vb);
+		                buffer_delete(b);
+		            }
+		        }
+		    }
+
+		    surface_reset_target();
+		    gpu_set_blendmode(old_blend);
+    
+		    ds_map_set(video, "frame_lastdrawn", target_frame);
 		}
-		else
-		{
-			seeker = true
-		}
-	}
-	
+        
+        var framebuffer = ds_map_find_value(video, "frame_buffer");
+        var q_size = ds_list_size(framebuffer);
+        for (var u = 0; u < q_size; u++)
+        {
+            var fb_item = ds_list_find_value(framebuffer, u);
+            if (fb_item != -1)
+            {
+                var status = ds_get_embedded(fb_item, "status");
+                if (status == -3)
+                {
+                    var b = ds_get_embedded(fb_item, "buffer");
+                    if (!is_undefined(b) && buffer_exists(b)) buffer_delete(b);
+                }
+                else
+                {
+                    ds_map_delete(global.gmlvideo_asyncAssoc, ds_get_embedded(fb_item, "id"));
+                }
+                
+                ds_map_destroy(fb_item);
+                ds_list_set(framebuffer, u, -1);
+            }
+        }
+        
+        ds_map_set(video, "frame", target_frame);
+        ds_map_set(video, "frame_progress", 0);
+        ds_map_set(video, "frame_redraw", 1);
+        ds_map_replace(video, "seek", -1);
+        
+        _gmlvideo_sync_audio(video);
+    }
+    
     if (ds_map_find_value(video, "playing"))
     {
         ds_map_set(video, "frame_progress", ds_map_find_value(video, "frame_progress") + (ds_map_find_value(video, "speed") * d * video_fps));
@@ -65,13 +139,4 @@ for (var i = 0; i < s; i++)
         else
             _gmlvideo_dequeue_frame(video, u_frame);
     }
-}
-
-if seeker
-{
-	game_set_speed(999, gamespeed_fps)
-}
-else
-{
-	game_set_speed(gamespeed, gamespeed_fps)
 }

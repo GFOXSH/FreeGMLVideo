@@ -52,5 +52,9 @@ if (keyboard_check_pressed(vk_anykey))
 		case ord("Z"):
 			gmlvideo_video_volume(myvideo)
 			break
+			
+		case vk_f4:
+			window_set_fullscreen(window_get_fullscreen() ? false : true)
+			break
 	}
 }

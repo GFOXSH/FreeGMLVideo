@@ -1,13 +1,16 @@
 function gmlvideo_video_getsurface()
 {
 	var video = argument[0];
-	var manifest = ds_map_find_value(video, "manifest");
-	var xx = 0;
-	var yy = 0;
-	var ww = ds_map_find_value(manifest, "width");
-	var hh = ds_map_find_value(manifest, "height");
 	var redraw = isset_default(ds_map_find_value(video, "frame_redraw"), 0);
-	var getSurface = 1;
+
+	if _gmlvideo_is_seek(video)
+		return -1;
+	
+	if (!surface_exists(ds_map_find_value(video, "frame_surface")))
+	{
+		gmlvideo_video_seekto(video, gmlvideo_get_position(video));
+		return -1;
+	}
 
 	if (redraw)
 	{
@@ -15,9 +18,5 @@ function gmlvideo_video_getsurface()
 	    ds_map_set(video, "frame_redraw", 0);
 	}
 	
-	if _gmlvideo_is_seek(video)
-		return -1;
-	
-	if (getSurface)
-	    return ds_map_find_value(video, "frame_surface");
+	return ds_map_find_value(video, "frame_surface");
 }
