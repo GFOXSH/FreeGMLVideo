@@ -17,6 +17,6 @@ function _gmlvideo_video_drawframe()
 	    }
     
 	    ds_map_set(video, "frame_lastdrawn", index);
-	    frameVertexArrayClear(vb);
+	    _gmlvideo_frameVertexArrayClear(vb);
 	}
 }

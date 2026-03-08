@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "frame_is_keyframe",
+  "name": "_gmlvideo_frame_is_keyframe",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {

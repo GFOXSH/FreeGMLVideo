@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "frameVertexArrayClear",
+  "name": "_gmlvideo_video_framejump",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {

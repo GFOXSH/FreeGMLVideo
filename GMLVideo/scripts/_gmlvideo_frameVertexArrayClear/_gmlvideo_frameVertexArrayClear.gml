@@ -1,4 +1,4 @@
-function frameVertexArrayClear()
+function _gmlvideo_frameVertexArrayClear()
 {
 	var vb = argument0;
 

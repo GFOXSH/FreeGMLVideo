@@ -24,10 +24,7 @@ for (var i = 0; i < s; i++)
         if (!has_surface)
         {
             ds_map_set(video, "frame_surface", surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height")));
-            if (buffer_exists(ds_map_find_value(video, "backup_buffer")))
-                buffer_set_surface(ds_map_find_value(video, "backup_buffer"), ds_map_find_value(video, "frame_surface"), 0);
-            else
-                start_f = 0;
+            start_f = 0;
         }
         
         if (target_frame < last_drawn || start_f < 0)
@@ -62,7 +59,7 @@ for (var i = 0; i < s; i++)
 		            {
 		                var vb = _gmlvideo_video_framebuffer_to_vertexbuffer(ds_get_embedded(manifest, "frameSize", f), b);
 		                _gmlvideo_drawVertexFrame(manifest, vb);
-		                frameVertexArrayClear(vb);
+		                _gmlvideo_frameVertexArrayClear(vb);
 		                buffer_delete(b);
 		            }
 		        }
@@ -111,7 +108,7 @@ for (var i = 0; i < s; i++)
         
         if (ds_map_find_value(video, "frame_progress") >= 1)
         {
-            if (ds_map_find_value(video, "frame_lastdrawn") != ds_map_find_value(video, "frame") && frame_is_keyframe(ds_map_find_value(video, "manifest"), ds_map_find_value(video, "frame")))
+            if (ds_map_find_value(video, "frame_lastdrawn") != ds_map_find_value(video, "frame") && _gmlvideo_frame_is_keyframe(ds_map_find_value(video, "manifest"), ds_map_find_value(video, "frame")))
             {
                 ds_map_set(video, "frame_progress", 1);
                 ds_map_set(video, "frame_redraw", 1);
@@ -120,7 +117,7 @@ for (var i = 0; i < s; i++)
             {
                 var advance = max(floor(ds_map_find_value(video, "frame_progress")), 1);
                 ds_map_set(video, "frame_progress", frac(ds_map_find_value(video, "frame_progress")));
-                gmlvideo_video_framejump(video, advance, ds_map_find_value(video, "frame_progress"));
+                _gmlvideo_video_framejump(video, advance, ds_map_find_value(video, "frame_progress"));
             }
         }
     }

@@ -1,4 +1,4 @@
-function gmlvideo_video_framejump()
+function _gmlvideo_video_framejump()
 {
 	var video = argument[0];
 	var frameinc = 1;

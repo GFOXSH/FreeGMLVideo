@@ -1,4 +1,4 @@
-function frame_is_keyframe()
+function _gmlvideo_frame_is_keyframe()
 {
 	var manifest = argument[0];
 	var i = argument[1];
