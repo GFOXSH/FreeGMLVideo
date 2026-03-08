@@ -1,6 +1,7 @@
 //
-// Simple passthrough vertex shader
+// GMLVideo helper shader
 //
+
 //attribute vec3 in_Position;                  // (x,y,z)
 //attribute vec3 in_Normal;                  // (x,y,z)     unused in this shader.
 
@@ -16,7 +17,7 @@ uniform vec2 offset_pos;
 void main()
 {
     v_vColour = in_Colour;
-    vec2 pp = vec2(ceil(mod(v_vColour.a * 255.0, 16.0)), floor((v_vColour.a * 255.0)/16.0));
-    vec4 object_space_pos = vec4( offset_pos.x + pp.x, offset_pos.y + pp.y, 0, 1.0);
+    vec2 pp = vec2(ceil(mod(v_vColour.a * 255.0, 16.0)), floor((v_vColour.a * 255.0) / 16.0));
+    vec4 object_space_pos = vec4(offset_pos.x + pp.x, offset_pos.y + pp.y, 0, 1.0);
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;
 }

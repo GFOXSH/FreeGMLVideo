@@ -1,14 +1,10 @@
-
-
-
-
-
 //
-// Simple passthrough fragment shader
+// GMLVideo helper shader
 //
+
 varying vec4 v_vColour;
 
 void main()
 {
-    gl_FragColor = vec4(v_vColour.r, v_vColour.g, v_vColour.b, 1.0);
+    gl_FragColor = vec4(v_vColour.rgb, 1.0);
 }
