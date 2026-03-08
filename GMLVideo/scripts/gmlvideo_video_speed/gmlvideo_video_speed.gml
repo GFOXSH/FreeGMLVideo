@@ -8,5 +8,7 @@ function gmlvideo_video_speed()
 		exit;
 	
 	var s = argument[1];
-	_gmlvideo_video_speed(video, s);
+	
+	ds_map_set(video, "speed", s);
+	_gmlvideo_sync_audio(video);
 }

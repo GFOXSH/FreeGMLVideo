@@ -25,7 +25,6 @@
     {"id":{"name":"gmlvideo_video_draw","path":"scripts/gmlvideo_video_draw/gmlvideo_video_draw.yy",},"order":17,},
     {"id":{"name":"_gmlvideo_sync_audio","path":"scripts/_gmlvideo_sync_audio/_gmlvideo_sync_audio.yy",},"order":18,},
     {"id":{"name":"gmlvideo_video_play","path":"scripts/gmlvideo_video_play/gmlvideo_video_play.yy",},"order":19,},
-    {"id":{"name":"_gmlvideo_video_speed","path":"scripts/_gmlvideo_video_speed/_gmlvideo_video_speed.yy",},"order":20,},
     {"id":{"name":"gmlvideo_video_volume","path":"scripts/gmlvideo_video_volume/gmlvideo_video_volume.yy",},"order":21,},
     {"id":{"name":"gmlvideo_set_framecache","path":"scripts/gmlvideo_set_framecache/gmlvideo_set_framecache.yy",},"order":22,},
     {"id":{"name":"dm","path":"scripts/dm/dm.yy",},"order":24,},
