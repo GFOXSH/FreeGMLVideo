@@ -3,10 +3,6 @@
 function gmlvideo_video_speed()
 {
 	var video = argument[0];
-	
-	if _gmlvideo_is_seek(video)
-		exit;
-	
 	var s = argument[1];
 	
 	ds_map_set(video, "speed", s);

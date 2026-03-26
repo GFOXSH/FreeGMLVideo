@@ -2,9 +2,6 @@ function gmlvideo_video_play()
 {
 	var video = argument[0];
 	
-	if _gmlvideo_is_seek(video)
-		exit;
-	
 	var play = !ds_map_find_value(video, "playing");
 
 	if (argument_count > 1)

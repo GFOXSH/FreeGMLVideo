@@ -2,9 +2,6 @@ function gmlvideo_video_getsurface()
 {
 	var video = argument[0];
 	var redraw = isset_default(ds_map_find_value(video, "frame_redraw"), 0);
-
-	if _gmlvideo_is_seek(video)
-		return -1;
 	
 	if (!surface_exists(ds_map_find_value(video, "frame_surface")))
 	{
