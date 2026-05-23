@@ -24,12 +24,22 @@ for (var i = 0; i < s; i++)
         if (!has_surface)
         {
             ds_map_set(video, "frame_surface", surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height")));
-            start_f = 0;
+            start_f = -1;
         }
         
-        if (target_frame < last_drawn || start_f < 0)
+        var jumped = false;
+        var kf_rate = ds_map_find_value(manifest, "keyframe_rate");
+        var nearest_kf = 0;
+        
+        if (!is_undefined(kf_rate) && kf_rate > 0)
         {
-            start_f = 0;
+            nearest_kf = target_frame - (target_frame % kf_rate);
+        }
+
+        if (target_frame < last_drawn || start_f < 0 || nearest_kf > last_drawn)
+        {
+            start_f = nearest_kf; 
+            jumped = true;
         }
         
 		if (start_f <= target_frame)
@@ -42,7 +52,7 @@ for (var i = 0; i < s; i++)
     
 		    surface_set_target(ds_map_find_value(video, "frame_surface"));
     
-		    if (start_f == 0)
+		    if (start_f == 0 || jumped)
 		    {
 		        draw_clear_alpha(c_black, 1.0); 
 		    }
