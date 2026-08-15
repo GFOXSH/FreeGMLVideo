@@ -10,11 +10,12 @@ function gmlvideo_video_play()
 	ds_map_set(video, "playing", play);
 	_gmlvideo_sync_audio(video);
 
-	if (isset(ds_map_find_value(video, "audio_instance")))
+	var audio_inst = ds_map_find_value(video, "audio_instance");
+	if (!is_undefined(audio_inst))
 	{
 	    if (play)
-	        audio_resume_sound(ds_map_find_value(video, "audio_instance"));
+	        audio_resume_sound(audio_inst);
 	    else
-	        audio_pause_sound(ds_map_find_value(video, "audio_instance"));
+	        audio_pause_sound(audio_inst);
 	}
 }

@@ -8,8 +8,9 @@ function gmlvideo_video_stop()
 	
 	_gmlvideo_sync_audio(video);
 	
-	if (isset(ds_map_find_value(video, "audio_instance")))
+	var audio_inst = ds_map_find_value(video, "audio_instance");
+	if (!is_undefined(audio_inst))
 	{
-		audio_pause_sound(ds_map_find_value(video, "audio_instance"));
+		audio_pause_sound(audio_inst);
 	}
 }

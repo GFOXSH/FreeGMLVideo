@@ -1,7 +1,9 @@
 function gmlvideo_video_getsurface()
 {
 	var video = argument[0];
-	var redraw = isset_default(ds_map_find_value(video, "frame_redraw"), 0);
+	var redraw = ds_map_find_value(video, "frame_redraw");
+	if (is_undefined(redraw)) redraw = 0;
+	
 	var manifest = ds_map_find_value(video, "manifest");
 	var surf = ds_map_find_value(video, "frame_surface");
 	

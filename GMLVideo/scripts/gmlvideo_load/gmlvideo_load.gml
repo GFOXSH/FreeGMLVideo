@@ -1,7 +1,8 @@
 function gmlvideo_load()
 {
-	var fn = filename_removeExt(filename_name(argument[0]));
-	var ext = filename_ext(argument[0]);
+	var file_path = argument[0];
+	var fn = filename_change_ext(filename_name(file_path), "");
+	var ext = filename_ext(file_path);
 	var failed = 1;
 	var temp_dir = "_GMLVID_";
 	var vid_dir = temp_dir + fn + "\\";
@@ -14,8 +15,8 @@ function gmlvideo_load()
 	    {
 	        if !(directory_exists(vid_dir) && file_exists(vid_dir + "video.dat"))
 	        {
-	            var archiveName = filename_removeExt(filename_name(argument[0])) + ".zip";
-	            file_copy(argument[0], working_directory + archiveName);
+	            var archiveName = fn + ".zip";
+	            file_copy(file_path, working_directory + archiveName);
             
 	            if (!directory_exists(vid_dir))
 	                directory_create(vid_dir);
@@ -27,14 +28,23 @@ function gmlvideo_load()
 	                break;
 	        }
         
-	        var manifestText = file_text_read_all(vid_dir + "video.dat");
+	        var manifest_file = vid_dir + "video.dat";
+	        if (!file_exists(manifest_file))
+	            break;
+	            
+	        var f = file_text_open_read(manifest_file);
+	        var manifestText = "";
+	        while (!file_text_eof(f))
+	            manifestText += file_text_readln(f);
+	        file_text_close(f);
         
 	        if (manifestText == "")
 	            break;
         
 	        manifest = json_decode(manifestText);
         
-	        if (isset(ds_map_find_value(manifest, "version")) && ds_map_find_value(manifest, "version") != 1003)
+	        var ver = ds_map_find_value(manifest, "version");
+	        if (!is_undefined(ver) && ver != 1003)
 	            show_error("Video seems to have been created with a different version of the converter. Video will be attempted to be played but compatability is not guarenteed", 0);
         
 	        failed = 0;
@@ -52,24 +62,42 @@ function gmlvideo_load()
 	else
 	{
 	    var opts = undefined;
-    
 	    if (argument_count > 1)
 	        opts = argument[1];
     
-	    videoObject = dm("frame", 0, "frame_progress", 0, "frame_lastinterval", current_time, "speed", 1, "frame_surface", -1, "playing", 1, "loop", 1, "file_root", vid_dir, "autoplay", 1, "seek", -1);
+	    videoObject = ds_map_create();
+	    ds_map_add(videoObject, "frame", 0);
+	    ds_map_add(videoObject, "frame_progress", 0);
+	    ds_map_add(videoObject, "frame_lastinterval", current_time);
+	    ds_map_add(videoObject, "speed", 1);
+	    ds_map_add(videoObject, "frame_surface", -1);
+	    ds_map_add(videoObject, "playing", 1);
+	    ds_map_add(videoObject, "loop", 1);
+	    ds_map_add(videoObject, "file_root", vid_dir);
+	    ds_map_add(videoObject, "autoplay", 1);
+	    ds_map_add(videoObject, "seek", -1);
     
 	    if (!is_undefined(opts))
 	    {
-	        ds_map_merge(videoObject, opts);
+	        var opt_key = ds_map_find_first(opts);
+	        var opt_size = ds_map_size(opts);
+	        for (var o = 0; o < opt_size; o++)
+	        {
+	            ds_map_set(videoObject, opt_key, ds_map_find_value(opts, opt_key));
+	            opt_key = ds_map_find_next(opts, opt_key);
+	        }
 	        ds_map_destroy(opts);
 	    }
     
 	    ds_map_add_map(videoObject, "manifest", manifest);
-	    ds_map_add_list(videoObject, "frame_buffer", ds_list_create());
-	    ds_set_embedded(videoObject, -1, "frame_buffer", ds_map_find_value(manifest, "frame_count") - 1);
-	    ds_list_set_all(ds_map_find_value(videoObject, "frame_buffer"), -1);
+	    
+	    var frame_count = ds_map_find_value(manifest, "frame_count");
+	    var fb_list = ds_list_create();
+	    for (var f_i = 0; f_i < frame_count; f_i++)
+	        ds_list_add(fb_list, -1);
+	    ds_map_add_list(videoObject, "frame_buffer", fb_list);
+	    
 	    var audioLo = ds_map_find_value(videoObject, "file_root") + "output_audio.ogg";
-    
 	    if (file_exists(audioLo))
 	    {
 	        ds_map_set(videoObject, "audio", audio_create_stream(audioLo));

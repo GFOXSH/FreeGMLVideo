@@ -16,7 +16,9 @@ function _gmlvideo_video_drawframe()
 		ds_map_set(video, "frame_lastdrawn", -1);
 	}
 	
-	var last_drawn = isset_default(ds_map_find_value(video, "frame_lastdrawn"), -1);
+	var last_drawn = ds_map_find_value(video, "frame_lastdrawn");
+	if (is_undefined(last_drawn)) last_drawn = -1;
+	
 	var start_f = last_drawn + 1;
 	var jumped = false;
 	
@@ -36,7 +38,8 @@ function _gmlvideo_video_drawframe()
 	if (start_f <= target_frame)
 	{
 		var frameSizePrecalc = ds_map_find_value(manifest, "frameSizePrecalc");
-		var start_offset = isset_default(ds_map_find_value(manifest, "start_frame"), 0);
+		var start_offset = ds_map_find_value(manifest, "start_frame");
+		if (is_undefined(start_offset)) start_offset = 0;
 		
 		surface_set_target(surf);
 		
@@ -44,6 +47,8 @@ function _gmlvideo_video_drawframe()
 		{
 			draw_clear_alpha(c_black, 1.0);
 		}
+		
+		var manifest_frameSize = ds_map_find_value(manifest, "frameSize");
 		
 		for (var f = start_f; f <= target_frame; f++)
 		{
@@ -56,9 +61,11 @@ function _gmlvideo_video_drawframe()
 				if (f < ds_list_size(framebuffer))
 				{
 					var fb_item = ds_list_find_value(framebuffer, f);
-					if (fb_item != -1 && isset_equality(ds_get_embedded(fb_item, "status"), -3))
+					if (fb_item != -1)
 					{
-						b = ds_get_embedded(fb_item, "buffer");
+						var st = ds_map_find_value(fb_item, "status");
+						if (!is_undefined(st) && st == -3)
+							b = ds_map_find_value(fb_item, "buffer");
 					}
 				}
 				
@@ -71,7 +78,8 @@ function _gmlvideo_video_drawframe()
 				
 				if (b != -1 && buffer_exists(b))
 				{
-					_gmlvideo_drawVertexFrame(manifest, ds_get_embedded(manifest, "frameSize", f), b);
+					var current_frame_size_list = ds_list_find_value(manifest_frameSize, f);
+					_gmlvideo_drawVertexFrame(manifest, current_frame_size_list, b);
 					if (need_delete)
 						buffer_delete(b);
 				}

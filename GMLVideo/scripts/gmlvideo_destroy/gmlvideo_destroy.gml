@@ -5,11 +5,13 @@ function gmlvideo_destroy()
 	if (surface_exists(ds_map_find_value(G, "frame_surface")))
 	    surface_free(ds_map_find_value(G, "frame_surface"));
 
-	if (isset(ds_map_find_value(G, "audio_instance")))
-	    audio_stop_sound(ds_map_find_value(G, "audio_instance"));
+	var audio_inst = ds_map_find_value(G, "audio_instance");
+	if (!is_undefined(audio_inst))
+	    audio_stop_sound(audio_inst);
 	    
-	if (isset(ds_map_find_value(G, "audio")))
-	    audio_destroy_stream(ds_map_find_value(G, "audio"));
+	var audio_stream = ds_map_find_value(G, "audio");
+	if (!is_undefined(audio_stream))
+	    audio_destroy_stream(audio_stream);
 
 	var framebuffer = ds_map_find_value(G, "frame_buffer");
 	if (!is_undefined(framebuffer))
@@ -20,12 +22,12 @@ function gmlvideo_destroy()
 	        var fb_item = ds_list_find_value(framebuffer, u);
 	        if (fb_item != -1)
 	        {
-	            var status = ds_get_embedded(fb_item, "status");
+	            var status = ds_map_find_value(fb_item, "status");
 	            if (status == -3) {
-	                var b = ds_get_embedded(fb_item, "buffer");
+	                var b = ds_map_find_value(fb_item, "buffer");
 	                if (!is_undefined(b) && buffer_exists(b)) buffer_delete(b);
 	            } else if (status == -2) {
-	                ds_map_delete(global.gmlvideo_asyncAssoc, ds_get_embedded(fb_item, "id"));
+	                ds_map_delete(global.gmlvideo_asyncAssoc, ds_map_find_value(fb_item, "id"));
 	            }
 	            ds_map_destroy(fb_item);
 	        }

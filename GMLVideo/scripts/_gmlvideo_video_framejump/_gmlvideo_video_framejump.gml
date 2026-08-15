@@ -4,7 +4,8 @@ function _gmlvideo_video_framejump()
 	var frameinc = 1;
 	var progress = 0;
 	var index = ds_map_find_value(video, "frame");
-	var framecount = ds_get_embedded(video, "manifest", "frame_count");
+	var manifest = ds_map_find_value(video, "manifest");
+	var framecount = ds_map_find_value(manifest, "frame_count");
 	var loop = !!ds_map_find_value(video, "loop");
 	var audioSync = 0;
 

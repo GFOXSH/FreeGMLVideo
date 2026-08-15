@@ -6,8 +6,9 @@ var frames_to_buffer = ds_map_find_value(global.gmlvideo, "buffer_frames");
 for (var i = 0; i < s; i++)
 {
     var video = ds_list_find_value(videos, i);
-    var video_fps = ds_get_embedded(video, "manifest", "target_fps");
-    var frame_count = ds_get_embedded(video, "manifest", "frame_count");
+    var manifest = ds_map_find_value(video, "manifest");
+    var video_fps = ds_map_find_value(manifest, "target_fps");
+    var frame_count = ds_map_find_value(manifest, "frame_count");
     
     var seek = ds_map_find_value(video, "seek");
     if (seek >= 0)
@@ -22,15 +23,16 @@ for (var i = 0; i < s; i++)
             var fb_item = ds_list_find_value(framebuffer, u);
             if (fb_item != -1)
             {
-                var status = ds_get_embedded(fb_item, "status");
+                var status = ds_map_find_value(fb_item, "status");
                 if (status == -3)
                 {
-                    var b = ds_get_embedded(fb_item, "buffer");
-                    if (!is_undefined(b) && buffer_exists(b)) buffer_delete(b);
+                    var b = ds_map_find_value(fb_item, "buffer");
+                    if (!is_undefined(b) && buffer_exists(b))
+                        buffer_delete(b);
                 }
                 else
                 {
-                    ds_map_delete(global.gmlvideo_asyncAssoc, ds_get_embedded(fb_item, "id"));
+                    ds_map_delete(global.gmlvideo_asyncAssoc, ds_map_find_value(fb_item, "id"));
                 }
                 
                 ds_map_destroy(fb_item);
