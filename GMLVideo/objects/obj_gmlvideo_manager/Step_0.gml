@@ -15,70 +15,6 @@ for (var i = 0; i < s; i++)
         var target_frame = floor(seek * video_fps);
         target_frame = clamp(target_frame, 0, frame_count - 1);
         
-        var last_drawn = isset_default(ds_map_find_value(video, "frame_lastdrawn"), -1);
-        var start_f = last_drawn + 1;
-        
-        var manifest = ds_map_find_value(video, "manifest");
-        var has_surface = surface_exists(ds_map_find_value(video, "frame_surface"));
-        
-        if (!has_surface)
-        {
-            ds_map_set(video, "frame_surface", surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height")));
-            start_f = -1;
-        }
-        
-        var jumped = false;
-        var kf_rate = ds_map_find_value(manifest, "keyframe_rate");
-        var nearest_kf = 0;
-        
-        if (!is_undefined(kf_rate) && kf_rate > 0)
-        {
-            nearest_kf = target_frame - (target_frame % kf_rate);
-        }
-
-        if (target_frame < last_drawn || start_f < 0 || nearest_kf > last_drawn)
-        {
-            start_f = nearest_kf; 
-            jumped = true;
-        }
-        
-		if (start_f <= target_frame)
-		{
-		    var frameSize = ds_map_find_value(manifest, "frameSizePrecalc");
-		    var start_offset = isset_default(ds_map_find_value(manifest, "start_frame"), 0);
-    
-		    var old_blend = gpu_get_blendmode();
-		    gpu_set_blendmode(bm_normal);
-    
-		    surface_set_target(ds_map_find_value(video, "frame_surface"));
-    
-		    if (start_f == 0 || jumped)
-		    {
-		        draw_clear_alpha(c_black, 1.0); 
-		    }
-    
-		    for (var f = start_f; f <= target_frame; f++)
-		    {
-		        var frame_total_size = ds_list_find_value(frameSize, f);
-		        if (frame_total_size > 0)
-		        {
-		            var frame_file = ds_map_find_value(video, "file_root") + "frame_" + string(start_offset + f) + ".dat";
-		            var b = buffer_load(frame_file);
-            
-		            if (b != -1)
-		            {
-		                _gmlvideo_drawVertexFrame(manifest, ds_get_embedded(manifest, "frameSize", f), b);
-		                buffer_delete(b);
-		            }
-		        }
-		    }
-
-		    surface_reset_target();
-		    gpu_set_blendmode(old_blend);
-    
-		    ds_map_set(video, "frame_lastdrawn", target_frame);
-		}
-        
         var framebuffer = ds_map_find_value(video, "frame_buffer");
         var q_size = ds_list_size(framebuffer);
         for (var u = 0; u < q_size; u++)
@@ -107,6 +43,7 @@ for (var i = 0; i < s; i++)
         ds_map_set(video, "frame_redraw", 1);
         ds_map_replace(video, "seek", -1);
         
+        _gmlvideo_video_drawframe(video, target_frame);
         _gmlvideo_sync_audio(video);
     }
     
@@ -116,17 +53,9 @@ for (var i = 0; i < s; i++)
         
         if (ds_map_find_value(video, "frame_progress") >= 1)
         {
-            if (ds_map_find_value(video, "frame_lastdrawn") != ds_map_find_value(video, "frame") && _gmlvideo_frame_is_keyframe(ds_map_find_value(video, "manifest"), ds_map_find_value(video, "frame")))
-            {
-                ds_map_set(video, "frame_progress", 1);
-                ds_map_set(video, "frame_redraw", 1);
-            }
-            else
-            {
-                var advance = max(floor(ds_map_find_value(video, "frame_progress")), 1);
-                ds_map_set(video, "frame_progress", frac(ds_map_find_value(video, "frame_progress")));
-                _gmlvideo_video_framejump(video, advance, ds_map_find_value(video, "frame_progress"));
-            }
+            var advance = max(floor(ds_map_find_value(video, "frame_progress")), 1);
+            ds_map_set(video, "frame_progress", frac(ds_map_find_value(video, "frame_progress")));
+            _gmlvideo_video_framejump(video, advance, ds_map_find_value(video, "frame_progress"));
         }
     }
     
