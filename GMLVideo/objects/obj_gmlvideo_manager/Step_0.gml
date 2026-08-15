@@ -46,7 +46,14 @@ for (var i = 0; i < s; i++)
         ds_map_replace(video, "seek", -1);
         
         _gmlvideo_video_drawframe(video, target_frame);
+        
         _gmlvideo_sync_audio(video);
+        
+        var audio_inst = ds_map_find_value(video, "audio_instance");
+        if (!is_undefined(audio_inst) && ds_map_find_value(video, "playing"))
+        {
+            audio_resume_sound(audio_inst);
+        }
     }
     
     if (ds_map_find_value(video, "playing"))
