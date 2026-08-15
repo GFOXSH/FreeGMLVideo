@@ -1,10 +1,12 @@
-var vw = sprite_width - 5;
-var vh = sprite_height - 5;
+var _vw = sprite_width - 5;
+var _vh = sprite_height - 5;
 
-for (var i = 0; i < room_width; i += vw)
+for (var _i = 0; _i < room_width; _i += _vw)
 {
-    for (var j = 0; j < room_height; j += vh)
-        gmlvideo_video_draw(myvideo, i, j, sprite_width, sprite_height);
+	for (var _j = 0; _j < room_height; _j += _vh)
+	{
+		gmlvideo_video_draw(myvideo, _i, _j, sprite_width, sprite_height);
+	}
 }
 
 draw_set_alpha(0.75);

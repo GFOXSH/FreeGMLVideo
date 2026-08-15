@@ -1,13 +1,13 @@
 function gmlvideo_video_seekto()
 {
-	var video = argument0;
-	var target_time = clamp(argument1, 0, gmlvideo_length(video));
+	var _video = argument[0];
+	var _target_time = clamp(argument[1], 0, gmlvideo_length(_video));
 	
-	var audio_inst = ds_map_find_value(video, "audio_instance");
-	if (!is_undefined(audio_inst))
+	var _audio_inst = ds_map_find_value(_video, "audio_instance");
+	if (!is_undefined(_audio_inst))
 	{
-		audio_pause_sound(audio_inst);
+		audio_pause_sound(_audio_inst);
 	}
 	
-	ds_map_replace(video, "seek", target_time);
+	ds_map_replace(_video, "seek", _target_time);
 }

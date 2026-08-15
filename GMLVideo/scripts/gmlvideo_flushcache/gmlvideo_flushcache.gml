@@ -1,11 +1,11 @@
 function gmlvideo_flushcache()
 {
-	var f = file_find_first("_GMLVID*", 16);
+	var _f = file_find_first("_GMLVID*", fa_directory);
 
-	while (f != "")
+	while (_f != "")
 	{
-	    directory_destroy(f);
-	    f = file_find_next();
+		directory_destroy(_f);
+		_f = file_find_next();
 	}
 
 	file_find_close();

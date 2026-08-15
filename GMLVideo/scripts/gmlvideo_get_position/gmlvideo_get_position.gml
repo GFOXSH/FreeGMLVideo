@@ -1,8 +1,8 @@
-// Script assets have changed for v2.3.0 see
-// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function gmlvideo_get_position()
 {
-	var video = argument0;
-	var manifest = ds_map_find_value(video, "manifest");
-	return ds_map_find_value(video, "frame") / ds_map_find_value(manifest, "target_fps");
+	var _video = argument[0];
+	var _manifest = ds_map_find_value(_video, "manifest");
+	var _fps = ds_map_find_value(_manifest, "target_fps");
+	var _frame = ds_map_find_value(_video, "frame");
+	return _frame / _fps;
 }

@@ -1,25 +1,26 @@
 function gmlvideo_video_getsurface()
 {
-	var video = argument[0];
-	var redraw = ds_map_find_value(video, "frame_redraw");
-	if (is_undefined(redraw)) redraw = 0;
+	var _video = argument[0];
+	var _redraw = ds_map_find_value(_video, "frame_redraw");
+	if (is_undefined(_redraw))
+		_redraw = 0;
 	
-	var manifest = ds_map_find_value(video, "manifest");
-	var surf = ds_map_find_value(video, "frame_surface");
+	var _manifest = ds_map_find_value(_video, "manifest");
+	var _surf = ds_map_find_value(_video, "frame_surface");
 	
-	if (!surface_exists(surf))
+	if (!surface_exists(_surf))
 	{
-		surf = surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height"));
-		ds_map_set(video, "frame_surface", surf);
-		ds_map_set(video, "frame_lastdrawn", -1);
-		redraw = 1;
+		_surf = surface_create(ds_map_find_value(_manifest, "width"), ds_map_find_value(_manifest, "height"));
+		ds_map_set(_video, "frame_surface", _surf);
+		ds_map_set(_video, "frame_lastdrawn", -1);
+		_redraw = 1;
 	}
 
-	if (redraw || ds_map_find_value(video, "frame_lastdrawn") != ds_map_find_value(video, "frame"))
+	if (_redraw || ds_map_find_value(_video, "frame_lastdrawn") != ds_map_find_value(_video, "frame"))
 	{
-	    _gmlvideo_video_drawframe(video, ds_map_find_value(video, "frame"));
-	    ds_map_set(video, "frame_redraw", 0);
+		_gmlvideo_video_drawframe(_video, ds_map_find_value(_video, "frame"));
+		ds_map_set(_video, "frame_redraw", 0);
 	}
 	
-	return ds_map_find_value(video, "frame_surface");
+	return ds_map_find_value(_video, "frame_surface");
 }

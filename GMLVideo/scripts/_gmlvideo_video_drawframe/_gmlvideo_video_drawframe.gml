@@ -1,92 +1,97 @@
 function _gmlvideo_video_drawframe()
 {
-	var video = argument[0];
-	var target_frame = argument[1];
-	var manifest = ds_map_find_value(video, "manifest");
-	var framebuffer = ds_map_find_value(video, "frame_buffer");
-	var frame_count = ds_map_find_value(manifest, "frame_count");
+	var _video = argument[0];
+	var _target_frame = argument[1];
+	var _manifest = ds_map_find_value(_video, "manifest");
+	var _framebuffer = ds_map_find_value(_video, "frame_buffer");
+	var _frame_count = ds_map_find_value(_manifest, "frame_count");
 	
-	target_frame = clamp(target_frame, 0, frame_count - 1);
+	_target_frame = clamp(_target_frame, 0, _frame_count - 1);
 	
-	var surf = ds_map_find_value(video, "frame_surface");
-	if (!surface_exists(surf))
+	var _surf = ds_map_find_value(_video, "frame_surface");
+	if (!surface_exists(_surf))
 	{
-		surf = surface_create(ds_map_find_value(manifest, "width"), ds_map_find_value(manifest, "height"));
-		ds_map_set(video, "frame_surface", surf);
-		ds_map_set(video, "frame_lastdrawn", -1);
+		_surf = surface_create(ds_map_find_value(_manifest, "width"), ds_map_find_value(_manifest, "height"));
+		ds_map_set(_video, "frame_surface", _surf);
+		ds_map_set(_video, "frame_lastdrawn", -1);
 	}
 	
-	var last_drawn = ds_map_find_value(video, "frame_lastdrawn");
-	if (is_undefined(last_drawn)) last_drawn = -1;
+	var _last_drawn = ds_map_find_value(_video, "frame_lastdrawn");
+	if (is_undefined(_last_drawn))
+		_last_drawn = -1;
 	
-	var start_f = last_drawn + 1;
-	var jumped = false;
+	var _start_f = _last_drawn + 1;
+	var _jumped = false;
 	
-	var kf_rate = ds_map_find_value(manifest, "keyframe_rate");
-	var nearest_kf = 0;
-	if (!is_undefined(kf_rate) && kf_rate > 0)
+	var _kf_rate = ds_map_find_value(_manifest, "keyframe_rate");
+	var _nearest_kf = 0;
+	if (!is_undefined(_kf_rate) && _kf_rate > 0)
 	{
-		nearest_kf = target_frame - (target_frame % kf_rate);
+		_nearest_kf = _target_frame - (_target_frame % _kf_rate);
 	}
 	
-	if (target_frame < last_drawn || start_f < 0 || nearest_kf > last_drawn)
+	if (_target_frame < _last_drawn || _start_f < 0 || _nearest_kf > _last_drawn)
 	{
-		start_f = nearest_kf;
-		jumped = true;
+		_start_f = _nearest_kf;
+		_jumped = true;
 	}
 	
-	if (start_f <= target_frame)
+	if (_start_f <= _target_frame)
 	{
-		var frameSizePrecalc = ds_map_find_value(manifest, "frameSizePrecalc");
-		var start_offset = ds_map_find_value(manifest, "start_frame");
-		if (is_undefined(start_offset)) start_offset = 0;
+		var _frameSizePrecalc = ds_map_find_value(_manifest, "frameSizePrecalc");
+		var _start_offset = ds_map_find_value(_manifest, "start_frame");
+		if (is_undefined(_start_offset))
+			_start_offset = 0;
 		
-		surface_set_target(surf);
+		surface_set_target(_surf);
 		
-		if (start_f == 0 || jumped)
+		if (_start_f == 0 || _jumped)
 		{
 			draw_clear_alpha(c_black, 1.0);
 		}
 		
-		var manifest_frameSize = ds_map_find_value(manifest, "frameSize");
+		var _manifest_frameSize = ds_map_find_value(_manifest, "frameSize");
 		
-		for (var f = start_f; f <= target_frame; f++)
+		for (var _f = _start_f; _f <= _target_frame; _f++)
 		{
-			var frame_total_size = ds_list_find_value(frameSizePrecalc, f);
-			if (frame_total_size > 0)
+			var _frame_total_size = ds_list_find_value(_frameSizePrecalc, _f);
+			if (_frame_total_size > 0)
 			{
-				var b = -1;
-				var need_delete = false;
+				var _b = -1;
+				var _need_delete = false;
 				
-				if (f < ds_list_size(framebuffer))
+				if (_f < ds_list_size(_framebuffer))
 				{
-					var fb_item = ds_list_find_value(framebuffer, f);
-					if (fb_item != -1)
+					var _fb_item = ds_list_find_value(_framebuffer, _f);
+					if (_fb_item != -1 && !is_undefined(_fb_item))
 					{
-						var st = ds_map_find_value(fb_item, "status");
-						if (!is_undefined(st) && st == -3)
-							b = ds_map_find_value(fb_item, "buffer");
+						var _st = ds_map_find_value(_fb_item, "status");
+						if (!is_undefined(_st) && _st == -3)
+							_b = ds_map_find_value(_fb_item, "buffer");
 					}
 				}
 				
-				if (b == -1 || !buffer_exists(b))
+				if (_b == -1 || !buffer_exists(_b))
 				{
-					var frame_file = ds_map_find_value(video, "file_root") + "frame_" + string(start_offset + f) + ".dat";
-					b = buffer_load(frame_file);
-					need_delete = true;
+					var _frame_file = ds_map_find_value(_video, "file_root") + "frame_" + string(_start_offset + _f) + ".dat";
+					if (file_exists(_frame_file))
+					{
+						_b = buffer_load(_frame_file);
+						_need_delete = true;
+					}
 				}
 				
-				if (b != -1 && buffer_exists(b))
+				if (_b != -1 && buffer_exists(_b))
 				{
-					var current_frame_size_list = ds_list_find_value(manifest_frameSize, f);
-					_gmlvideo_drawVertexFrame(manifest, current_frame_size_list, b);
-					if (need_delete)
-						buffer_delete(b);
+					var _current_frame_size_list = ds_list_find_value(_manifest_frameSize, _f);
+					_gmlvideo_drawVertexFrame(_manifest, _current_frame_size_list, _b);
+					if (_need_delete)
+						buffer_delete(_b);
 				}
 			}
 		}
 		
 		surface_reset_target();
-		ds_map_set(video, "frame_lastdrawn", target_frame);
+		ds_map_set(_video, "frame_lastdrawn", _target_frame);
 	}
 }

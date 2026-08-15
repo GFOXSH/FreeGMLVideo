@@ -1,16 +1,16 @@
 function gmlvideo_video_stop()
 {
-	var video = argument0;
+	var _video = argument[0];
 	
-	ds_map_set(video, "playing", 0);
-	ds_map_set(video, "frame", 0);
-	ds_map_set(video, "frame_progress", 0);
+	ds_map_set(_video, "playing", 0);
+	ds_map_set(_video, "frame", 0);
+	ds_map_set(_video, "frame_progress", 0);
 	
-	_gmlvideo_sync_audio(video);
+	_gmlvideo_sync_audio(_video);
 	
-	var audio_inst = ds_map_find_value(video, "audio_instance");
-	if (!is_undefined(audio_inst))
+	var _audio_inst = ds_map_find_value(_video, "audio_instance");
+	if (!is_undefined(_audio_inst))
 	{
-		audio_pause_sound(audio_inst);
+		audio_pause_sound(_audio_inst);
 	}
 }
