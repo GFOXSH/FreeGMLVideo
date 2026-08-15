@@ -67,9 +67,7 @@ for (var i = 0; i < s; i++)
             
 		            if (b != -1)
 		            {
-		                var vb = _gmlvideo_video_framebuffer_to_vertexbuffer(ds_get_embedded(manifest, "frameSize", f), b);
-		                _gmlvideo_drawVertexFrame(manifest, vb);
-		                _gmlvideo_frameVertexArrayClear(vb);
+		                _gmlvideo_drawVertexFrame(manifest, ds_get_embedded(manifest, "frameSize", f), b);
 		                buffer_delete(b);
 		            }
 		        }

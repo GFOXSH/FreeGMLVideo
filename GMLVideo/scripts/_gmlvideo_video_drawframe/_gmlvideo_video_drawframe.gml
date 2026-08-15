@@ -7,16 +7,13 @@ function _gmlvideo_video_drawframe()
 
 	if (ds_list_find_value(framebuffer, index) != -1 && isset_equality(ds_get_embedded(framebuffer, index, "status"), -3))
 	{
-	    var vb = _gmlvideo_video_framebuffer_to_vertexbuffer(ds_get_embedded(manifest, "frameSize", index), ds_get_embedded(framebuffer, index, "buffer"));
-    
 	    if (surface_exists(ds_map_find_value(video, "frame_surface")))
 	    {
 	        surface_set_target(ds_map_find_value(video, "frame_surface"));
-	        _gmlvideo_drawVertexFrame(manifest, vb);
+	        _gmlvideo_drawVertexFrame(manifest, ds_get_embedded(manifest, "frameSize", index), ds_get_embedded(framebuffer, index, "buffer"));
 	        surface_reset_target();
 	    }
     
 	    ds_map_set(video, "frame_lastdrawn", index);
-	    _gmlvideo_frameVertexArrayClear(vb);
 	}
 }
